@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline | Viet Anh</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            color: #ff6b9d;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #b8b8d1;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .feature:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .feature i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #6a11cb;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .connection-status {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 107, 157, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 157, 0.3);
+        }
+
+        .connection-status i {
+            margin-right: 0.5rem;
+        }
+
+        .offline-content {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .offline-content h3 {
+            margin-bottom: 1rem;
+            color: #6a11cb;
+        }
+
+        .offline-content ul {
+            list-style-position: inside;
+            margin-left: 1rem;
+        }
+
+        .offline-content li {
+            margin-bottom: 0.5rem;
+            color: #b8b8d1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .feature, .btn {
+                transition: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="icon">
+            <i class="fas fa-wifi-slash"></i>
+        </div>
+        
+        <h1>Bạn đang offline</h1>
+        
+        <p>
+            Rất tiếc, có vẻ như bạn đang không có kết nối internet. 
+            Một số tính năng có thể không hoạt động đúng cách.
+        </p>
+        
+        <div class="connection-status">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Đang chờ kết nối internet...</span>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-snowflake"></i>
+                <h3>Hiệu ứng tuyết</h3>
+                <p>Vẫn hoạt động offline</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-music"></i>
+                <h3>Nhạc nền</h3>
+                <p>Đã được cache sẵn</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-cog"></i>
+                <h3>Cài đặt</h3>
+                <p>Lưu cục bộ</p>
+            </div>
+        </div>
+        
+        <div class="offline-content">
+            <h3><i class="fas fa-info-circle"></i> Bạn vẫn có thể:</h3>
+            <ul>
+                <li>Xem trang web cá nhân</li>
+                <li>Nghe nhạc đã được tải về</li>
+                <li>Thay đổi cài đặt</li>
+                <li>Xem thông tin cá nhân</li>
+                <li>Truy cập các liên kết đã cache</li>
+            </ul>
+        </div>
+        
+        <div class="buttons">
+            <button class="btn btn-primary" id="retryBtn">
+                <i class="fas fa-redo"></i> Thử kết nối lại
+            </button>
+            <a href="/" class="btn btn-secondary">
+                <i class="fas fa-home"></i> Về trang chủ
+            </a>
+            <button class="btn btn-secondary" id="clearCacheBtn">
+                <i class="fas fa-trash"></i> Xóa cache
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Check connection status
+        function checkConnection() {
+            if (navigator.onLine) {
+                window.location.href = '/';
+            }
+        }
+
+        // Retry connection
+        document.getElementById('retryBtn').addEventListener('click', () => {
+            checkConnection();
+            
+            // Show loading state
+            const btn = document.getElementById('retryBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang thử kết nối...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 3000);
+        });
+
+        // Clear cache
+        document.getElementById('clearCacheBtn').addEventListener('click', () => {
+            if (confirm('Bạn có chắc chắn muốn xóa cache? Hành động này sẽ xóa tất cả dữ liệu đã lưu.')) {
+                if ('serviceWorker' in navigator && 'caches' in window) {
+                    caches.keys().then(cacheNames => {
+                        return Promise.all(
+                            cacheNames.map(cacheName => {
+                                return caches.delete(cacheName);
+                            })
+                        );
+                    }).then(() => {
+                        localStorage.clear();
+                        sessionStorage.clear();
+                        alert('Đã xóa cache thành công!');
+                        location.reload();
+                    }).catch(error => {
+                        console.error('Error clearing cache:', error);
+                        alert('Có lỗi xảy ra khi xóa cache.');
+                    });
+                } else {
+                    alert('Trình duyệt không hỗ trợ xóa cache.');
+                }
+            }
+        });
+
+        // Listen for online/offline events
+        window.addEventListener('online', () => {
+            const status = document.querySelector('.connection-status');
+            status.innerHTML = '<i class="fas fa-check-circle"></i> Đã kết nối lại internet!';
+            status.style.background = 'rgba(76, 175, 80, 0.1)';
+            status.style.borderColor = 'rgba(76, 175, 80, 0.3)';
+            
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+        });
+
+        window.addEventListener('offline', () => {
+            const status = document.querySelector('.connection-status');
+            status.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Đang chờ kết nối internet...';
+            status.style.background = 'rgba(255, 107, 157, 0.1)';
+            status.style.borderColor = 'rgba(255, 107, 157, 0.3)';
+        });
+
+        // Check connection on load
+        checkConnection();
+        
+        // Periodic connection check
+        setInterval(checkConnection, 5000);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // F5 to retry
+            if (e.key === 'F5') {
+                e.preventDefault();
+                document.getElementById('retryBtn').click();
+            }
+            
+            // Ctrl/Cmd + R to retry
+            if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+                e.preventDefault();
+                document.getElementById('retryBtn').click();
+            }
+            
+            // Escape to go home
+            if (e.key === 'Escape') {
+                window.location.href = '/';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+# Apache Configuration for Personal Website
+# Performance, Security, and Caching Optimizations
+
+# Enable rewrite engine
+RewriteEngine On
+
+# Force HTTPS (uncomment for production)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Remove trailing slashes
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [R=301,L]
+
+# Redirect www to non-www (or vice versa)
+# RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+# RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Custom error pages
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+ErrorDocument 503 /offline.html
+
+# Security Headers
+<IfModule mod_headers.c>
+    # Content Security Policy
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com/ajax/libs https://fonts.googleapis.com https://cdn.pixabay.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com/ajax/libs 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com/ajax/libs data:; img-src 'self' data: https:; media-src 'self' https://cdn.pixabay.com; connect-src 'self' https://cdn.pixabay.com; frame-ancestors 'none';"
+    
+    # XSS Protection
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Prevent MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Frame options
+    Header set X-Frame-Options "DENY"
+    
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permissions Policy
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # Feature Policy (legacy)
+    Header set Feature-Policy "geolocation 'none'; microphone 'none'; camera 'none'"
+</IfModule>
+
+# Caching Headers
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Default expiration: 1 hour
+    ExpiresDefault "access plus 1 hour"
+    
+    # HTML: 5 minutes
+    ExpiresByType text/html "access plus 5 minutes"
+    
+    # CSS & JavaScript: 1 year
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType application/x-javascript "access plus 1 year"
+    
+    # Images: 1 year
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # Fonts: 1 year
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    
+    # Audio/Video: 1 month
+    ExpiresByType audio/mpeg "access plus 1 month"
+    ExpiresByType audio/ogg "access plus 1 month"
+    ExpiresByType video/mp4 "access plus 1 month"
+    ExpiresByType video/webm "access plus 1 month"
+    
+    # Web manifests: 1 week
+    ExpiresByType application/manifest+json "access plus 1 week"
+    
+    # Service worker: immediately (no cache)
+    ExpiresByType application/javascript "access plus 0 seconds" env=SW
+    
+    # Cache-Control headers
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "public, max-age=300, must-revalidate"
+    </FilesMatch>
+    
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    
+    <FilesMatch "\.(woff|woff2|ttf|otf)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    
+    <FilesMatch "\.(mp3|ogg|wav)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+    
+    <FilesMatch "service-worker\.js$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+    # Compress HTML, CSS, JavaScript, Text, XML and fonts
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/x-font-otf
+    AddOutputFilterByType DEFLATE application/x-font-truetype
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+    
+    # Remove browser bugs
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+    Header append Vary User-Agent
+</IfModule>
+
+# Gzip compression (alternative)
+<IfModule mod_gzip.c>
+    mod_gzip_on Yes
+    mod_gzip_dechunk Yes
+    mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+    mod_gzip_item_include mime ^text/.*
+    mod_gzip_item_include mime ^application/x-javascript.*
+    mod_gzip_item_include mime ^application/javascript.*
+    mod_gzip_item_exclude mime ^image/.*
+    mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</IfModule>
+
+# MIME Types
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType text/css .css
+    AddType image/svg+xml .svg .svgz
+    AddType application/json .json
+    AddType application/manifest+json .webmanifest
+    AddType audio/mpeg .mp3
+    AddType audio/ogg .oga .ogg
+    AddType video/mp4 .mp4
+    AddType video/webm .webm
+    AddType image/webp .webp
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+    AddType application/vnd.ms-fontobject .eot
+    AddType font/ttf .ttf
+    AddType font/otf .otf
+</IfModule>
+
+# Character encoding
+AddDefaultCharset UTF-8
+
+# Prevent directory listing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak|save)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Service worker scope
+<Files "service-worker.js">
+    Header set Service-Worker-Allowed "/"
+</Files>
+
+# Enable CORS for fonts
+<FilesMatch "\.(ttf|ttc|otf|eot|woff|woff2|font.css)$">
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+    </IfModule>
+</FilesMatch>
+
+# Browser caching for static resources
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|webp)$">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </IfModule>
+</FilesMatch>
+
+# ETag configuration
+FileETag MTime Size
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+
+# Disable ETags
+FileETag None
+
+# Enable Keep-Alive
+<IfModule mod_headers.c>
+    Header set Connection keep-alive
+</IfModule>
+
+# Set Keep-Alive timeout
+<IfModule mod_headers.c>
+    Header set Keep-Alive "timeout=5, max=100"
+</IfModule>
+
+# Custom 404 page
+ErrorDocument 404 /404.html
+
+# Custom 500 page
+ErrorDocument 500 /500.html
+
+# Maintenance mode (uncomment when needed)
+# RewriteEngine On
+# RewriteCond %{REMOTE_ADDR} !^123\.456\.789\.000
+# RewriteCond %{REQUEST_URI} !/maintenance\.html$
+# RewriteRule ^(.*)$ /maintenance.html [R=302,L]
+
+# Redirect old URLs (example)
+# Redirect 301 /old-page.html /new-page.html
+
+# Language priority
+<IfModule mod_negotiation.c>
+    LanguagePriority en vi
+    ForceLanguagePriority Prefer Fallback
+</IfModule>
+
+# Prevent hotlinking
+# RewriteEngine on
+# RewriteCond %{HTTP_REFERER} !^$
+# RewriteCond %{HTTP_REFERER} !^https://(www\.)?yourdomain\.com/.*$ [NC]
+# RewriteRule \.(jpg|jpeg|png|gif|mp3|ogg)$ - [F,NC]
+
+# Mobile redirect (optional)
+# RewriteEngine On
+# RewriteCond %{HTTP_USER_AGENT} "android|blackberry|iphone|ipod|iemobile|opera mobile|palmos|webos|googlebot-mobile" [NC]
+# RewriteCond %{HTTP_HOST} ^yourdomain\.com$ [NC]
+# RewriteRule ^$ http://m.yourdomain.com/ [L,R=302]
+
+# SEO: Remove duplicate content
+# RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.(html|htm|php)\ HTTP/
+# RewriteRule ^index\.(html|htm|php)$ http://yourdomain.com/ [R=301,L]
+
+# Performance: Disable server signature
+ServerSignature Off
+
+# Performance: Limit request methods
+<LimitExcept GET POST HEAD>
+    Deny from all
+</LimitExcept>
+
+# Performance: Limit request size
+LimitRequestBody 10485760
+
+# Note: This .htaccess file is optimized for Apache 2.4+
+# For Nginx, you'll need to convert these rules to Nginx configuration

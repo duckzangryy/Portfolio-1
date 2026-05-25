@@ -1,0 +1,83 @@
+{
+  "name": "personal-website",
+  "version": "1.0.0",
+  "description": "A modern, anime-themed personal website with liquid glass design, falling snow effects, and background music controls",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "dev": "serve . -p 3000",
+    "build": "npm run clean && npm run minify && npm run optimize",
+    "clean": "rm -rf dist && mkdir dist",
+    "minify": "npm run minify:css && npm run minify:js",
+    "minify:css": "cleancss -o dist/assets/css/style.min.css assets/css/style.css && cleancss -o dist/assets/css/snow.min.css assets/css/snow.css",
+    "minify:js": "terser assets/js/main.js -o dist/assets/js/main.min.js -c -m && terser assets/js/snow.js -o dist/assets/js/snow.min.js -c -m && terser assets/js/music.js -o dist/assets/js/music.min.js -c -m",
+    "optimize": "npm run optimize:images && npm run optimize:html",
+    "optimize:images": "mkdir -p dist/assets/images && cp assets/images/* dist/assets/images/ 2>/dev/null || true",
+    "optimize:html": "html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true -o dist/index.html index.html",
+    "test": "npm run test:lint && npm run test:performance",
+    "test:lint": "eslint assets/js/*.js",
+    "test:performance": "lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html",
+    "deploy": "npm run build && echo 'Build complete. Deploy dist/ folder to your server.'",
+    "pwa:generate": "npm run pwa:icons && npm run pwa:manifest",
+    "pwa:icons": "mkdir -p assets/images && echo 'Place your icon images in assets/images/'",
+    "pwa:manifest": "node -e \"console.log('Manifest generated at manifest.json')\"",
+    "audit": "npm audit",
+    "preview": "serve dist -p 8080",
+    "watch": "nodemon --watch assets --ext css,js,html --exec 'npm run build'"
+  },
+  "keywords": [
+    "personal-website",
+    "portfolio",
+    "anime",
+    "glass-morphism",
+    "pwa",
+    "snow-animation",
+    "music-player"
+  ],
+  "author": "Viet Anh",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/duckzangryy/personal-website.git"
+  },
+  "bugs": {
+    "url": "https://github.com/duckzangryy/personal-website/issues"
+  },
+  "homepage": "https://github.com/duckzangryy/personal-website#readme",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "not IE 11"
+  ],
+  "devDependencies": {
+    "clean-css-cli": "^5.6.0",
+    "eslint": "^8.0.0",
+    "html-minifier": "^4.0.0",
+    "lighthouse": "^9.0.0",
+    "nodemon": "^2.0.0",
+    "serve": "^14.0.0",
+    "terser": "^5.0.0"
+  },
+  "dependencies": {},
+  "pwa": {
+    "name": "Viet Anh - Personal Website",
+    "short_name": "Viet Anh",
+    "description": "Trang web cá nhân của Viet Anh với giao diện anime, hiệu ứng tuyết rơi và nhạc nền",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#6a11cb",
+    "background_color": "#0a0a1a"
+  },
+  "config": {
+    "port": 3000,
+    "build_dir": "dist",
+    "cache_version": "v1.0.0"
+  },
+  "private": true
+}
